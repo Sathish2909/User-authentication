@@ -1,30 +1,30 @@
-import { useState } from 'react';
+import React,{ useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../index.css';
-import React from 'react';
 
-function Login() {
+function Login({ setIsLoggedIn }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('User'); // Default role is User
-  const [message, setMessage] = useState(''); // State to hold messages
-  const [error, setError] = useState(false); // State to differentiate success and error messages
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setMessage(''); // Clear any previous messages
+    setMessage('');
     try {
       const response = await axios.post('http://localhost:5000/login', { email, password, role });
       setMessage(response.data.message);
-      setError(false); // Mark as success
+      setError(false);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('role', response.data.role);
-      setTimeout(() => navigate('/home'), 2000); // Redirect to home after 2 seconds
+      setIsLoggedIn(true); // Update login status
+      navigate('/home'); // Redirect to home page
     } catch (error) {
       setMessage(error.response?.data?.message || 'An error occurred.');
-      setError(true); // Mark as error
+      setError(true);
     }
   };
 
@@ -51,7 +51,6 @@ function Login() {
           <option value="Admin">Admin</option>
         </select>
         <button type="submit">Login</button>
-        {/* Display success or error message */}
         {message && (
           <p className={error ? 'error-message' : 'success-message'}>
             {message}
