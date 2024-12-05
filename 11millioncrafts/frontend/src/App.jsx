@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/Landingpage';
 import Signup from './components/signup';
-import Login from './components/Login';
+import Login from './components/login';
 import Home from './components/Home';
 
 function App() {

@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
+
+
 function Home() {
   const navigate = useNavigate();
 
@@ -10,10 +12,12 @@ function Home() {
   };
 
   return (
+    
     <div className='home-button'>
       <h1>Welcome to 11million Crafts!</h1>
       <button onClick={handleLogout}>Logout</button>
-    </div>
+      <button onClick={() => navigate('/inventory')}>Click to Inventory</button>
+   </div>
   );
 }
 
