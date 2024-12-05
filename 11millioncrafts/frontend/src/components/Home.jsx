@@ -1,18 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 import React from 'react';
-
 function Home() {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
-  };
-
   return (
-    <div className='home-button'>
-      <h1>Welcome to 11million Crafts!</h1>
-      <button onClick={handleLogout}>Logout</button>
+    <div className="page-content">
+      <h2>Welcome to 11millioncrafts!</h2>
+      <p>Your one-stop solution for corporate gifting needs.</p>
     </div>
   );
 }
