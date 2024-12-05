@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './components/Landingpage';
 import Signup from './components/signup';
@@ -13,9 +13,17 @@ import Header from './components/Header';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
 
+  // Check login state on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Check for a token in localStorage
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   // Protected Route Component
   const ProtectedRoute = ({ children }) => {
-    return isLoggedIn ? children : <Navigate to="/login" />;
+    return isLoggedIn ? children : <Navigate to="/home" />;
   };
 
   return (

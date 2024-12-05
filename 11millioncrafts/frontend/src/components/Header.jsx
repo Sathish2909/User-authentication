@@ -1,8 +1,17 @@
-import { NavLink } from 'react-router-dom';
-import '../index.css';
 import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import '../index.css';
 
 function Header() {
+//   const navigate = useNavigate();
+
+//   const handleLogout = () => {
+//     localStorage.removeItem('token'); // Clear the token from localStorage
+//     localStorage.removeItem('role'); // Clear the role
+//     navigate('/'); // Redirect to Landing Page
+//     window.location.reload(); // Refresh to reset the app state
+//   };
+
   return (
     <header className="header">
       <div className="header-left">
@@ -10,13 +19,14 @@ function Header() {
       </div>
       <nav className="header-right">
         <ul>
-          <li><NavLink to="/home" activeClassName="active" exact>Home</NavLink></li>
-          <li><NavLink to="/about" activeClassName="active">About Us</NavLink></li>
-          <li><NavLink to="/contact" activeClassName="active">Contact Us</NavLink></li>
-          <li><NavLink to="/services" activeClassName="active">Services</NavLink></li>
-          <li><NavLink to="/products" activeClassName="active">Products</NavLink></li>
+          <li><NavLink to="/home">Home</NavLink></li>
+          <li><NavLink to="/about">About Us</NavLink></li>
+          <li><NavLink to="/contact">Contact Us</NavLink></li>
+          <li><NavLink to="/services">Services</NavLink></li>
+          <li><NavLink to="/products">Products</NavLink></li>
         </ul>
       </nav>
+      
     </header>
   );
 }
