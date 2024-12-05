@@ -3,9 +3,11 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const multer = require('multer'); // Import multer for handling file uploads
 require('dotenv').config();
 
-const User = require('./models/User'); // Import User model
+const User = require('./models/User');
+const Product = require('./models/product');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,6 +15,23 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+
+
+// Serve static files from 'uploads' directory
+app.use('/uploads', express.static('uploads'));
+
+// Setup multer for image upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Define the folder where images will be stored
+  },
+  filename: (req, file, cb) => {
+    cb(null,file.originalname); // Add timestamp to file name
+  },
+});
+
+const upload = multer({ storage: storage });
 
 // MongoDB Connection
 mongoose
@@ -68,6 +87,45 @@ app.post('/login', async (req, res) => {
     res.status(200).json({ message: 'Login successful!', token });
   } catch (error) {
     res.status(500).json({ message: 'Server error!' });
+  }
+});
+
+// Add Product Endpoint with Image Upload
+app.post('/api/products', upload.single('image'), async (req, res) => {
+  const { name, productId } = req.body;
+
+  // Log the incoming request for debugging
+  console.log('Received Product Data:', req.body);
+
+  if (!name || !productId) {
+    return res.status(400).json({ message: 'Product name and ID are required!' });
+  }
+
+  try {
+    // If an image is uploaded, req.file will contain the file details
+    const productData = {
+      name,
+      productId,
+      image: req.file ? req.file.path : null, // Save the image path (file path)
+    };
+
+    const newProduct = new Product(productData);
+    await newProduct.save();
+    res.status(201).json({ message: 'Product added successfully!' });
+  } catch (error) {
+    console.error('Error saving product:', error);
+    res.status(500).json({ message: 'Server error!' });
+  }
+});
+
+// Get Products Endpoint
+app.get('/inventory', async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json(products);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ message: 'Error fetching products' });
   }
 });
 

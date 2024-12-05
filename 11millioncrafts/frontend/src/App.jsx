@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import LandingPage from './components/Landingpage';
-import Signup from './components/signup';
+import LandingPage from './components/LandingPage';
+import Signup from './components/Signup';
 import Login from './components/login';
 import Home from './components/Home';
 import About from './components/About';
@@ -9,9 +9,18 @@ import Contact from './components/Contact';
 import Services from './components/Services';
 import Products from './components/Products';
 import Header from './components/Header';
+import Form from './components/Form';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
+  // Track login state and persist it
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => localStorage.getItem('isLoggedIn') === 'true' // Retrieve state from localStorage
+  );
+
+  useEffect(() => {
+    // Update localStorage whenever isLoggedIn changes
+    localStorage.setItem('isLoggedIn', isLoggedIn);
+  }, [isLoggedIn]);
 
   // Protected Route Component
   const ProtectedRoute = ({ children }) => {
@@ -69,6 +78,15 @@ function App() {
             <ProtectedRoute>
               <Header />
               <Products />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/form"
+          element={
+            <ProtectedRoute>
+              <Header />
+              <Form />
             </ProtectedRoute>
           }
         />
