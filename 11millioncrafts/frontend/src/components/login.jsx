@@ -7,17 +7,24 @@ import React from 'react';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('User'); // Default role is User
+  const [message, setMessage] = useState(''); // State to hold messages
+  const [error, setError] = useState(false); // State to differentiate success and error messages
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setMessage(''); // Clear any previous messages
     try {
-      const response = await axios.post('http://localhost:5000/login', { email, password });
-      alert(response.data.message);
+      const response = await axios.post('http://localhost:5000/login', { email, password, role });
+      setMessage(response.data.message);
+      setError(false); // Mark as success
       localStorage.setItem('token', response.data.token);
-      navigate('/home');
+      localStorage.setItem('role', response.data.role);
+      setTimeout(() => navigate('/home'), 2000); // Redirect to home after 2 seconds
     } catch (error) {
-      alert(error.response?.data?.message || 'An error occurred.');
+      setMessage(error.response?.data?.message || 'An error occurred.');
+      setError(true); // Mark as error
     }
   };
 
@@ -39,7 +46,17 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <select value={role} onChange={(e) => setRole(e.target.value)} required>
+          <option value="User">User</option>
+          <option value="Admin">Admin</option>
+        </select>
         <button type="submit">Login</button>
+        {/* Display success or error message */}
+        {message && (
+          <p className={error ? 'error-message' : 'success-message'}>
+            {message}
+          </p>
+        )}
       </form>
     </div>
   );
