@@ -6,7 +6,7 @@ import '../index.css';
 function Login({ setIsLoggedIn }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('User');
+  const [role, setRole] = useState('User'); // Default role is User
   const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function Login({ setIsLoggedIn }) {
       setIsLoggedIn(true); // Update login state
       navigate('/home'); // Redirect to Home
     } catch (error) {
-      setMessage(error.response?.data?.message || 'An error occurred.');
+      setMessage(error.response?.data?.message || 'Invalid email, password, or role.');
       setError(true);
     }
   };

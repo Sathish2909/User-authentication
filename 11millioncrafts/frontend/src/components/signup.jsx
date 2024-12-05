@@ -1,4 +1,4 @@
-import React ,{ useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../index.css';
@@ -7,21 +7,27 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('User'); // Default role is User
-  const [message, setMessage] = useState(''); // State to hold messages
-  const [error, setError] = useState(false); // State to differentiate success and error messages
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    setMessage(''); // Clear any previous messages
+    setMessage('');
+    setError(false);
+
     try {
+      // Send signup request to the backend
       const response = await axios.post('http://localhost:5000/register', { email, password, role });
       setMessage(response.data.message);
-      setError(false); // Mark as success
-      setTimeout(() => navigate('/login'), 2000); // Redirect to login after 2 seconds
+      setError(false);
+
+      // Redirect to login after successful registration
+      setTimeout(() => navigate('/login'), 2000);
     } catch (error) {
+      console.error('Signup Error:', error.response?.data || error.message); // Debugging
       setMessage(error.response?.data?.message || 'An error occurred.');
-      setError(true); // Mark as error
+      setError(true);
     }
   };
 
@@ -48,7 +54,6 @@ function Signup() {
           <option value="Admin">Admin</option>
         </select>
         <button type="submit">Register</button>
-        {/* Display success or error message */}
         {message && (
           <p className={error ? 'error-message' : 'success-message'}>
             {message}
