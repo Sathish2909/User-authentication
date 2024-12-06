@@ -1,0 +1,98 @@
+/* General body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Form container */
+  form {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 15vh;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align form items to the left */
+  }
+  
+  /* Heading */
+  h2 {
+    font-size: 24px;
+    color: #333;
+    text-align: left; /* Align heading to the left */
+    margin-bottom: 20px;
+    font-weight: 600;
+    width: 100%;
+  }
+  
+  /* Label styling */
+  label {
+    font-size: 16px;
+    color: #555;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    width: 100%;
+  }
+  
+  /* Input fields */
+  input[type="text"],
+  input[type="file"] {
+    width: 100%; /* Ensure input takes up the full width of the form */
+    padding: 12px; /* Increase padding for better size */
+    margin-top: 5px;
+    margin-bottom: 20px; /* Increased margin for better spacing */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+  
+  /* Hover effect for input fields */
+  input[type="text"]:focus,
+  input[type="file"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Submit button styling */
+  button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* Ensure button takes up the full width */
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button hover effect */
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Message area */
+  p {
+    color: #28a745;
+    font-size: 16px;
+    text-align: left;
+    margin-top: 20px;
+  }
+  
+  p.error {
+    color: #dc3545;
+  }
+  
