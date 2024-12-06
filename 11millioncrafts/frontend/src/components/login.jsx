@@ -28,6 +28,33 @@ function Login({ setIsLoggedIn }) {
     }
   };
 
+  // Function to handle report download action
+  const handleDownloadReport = async () => {
+    try {
+      // Send GET request to the backend to fetch the report (CSV file)
+      const response = await axios.get('http://localhost:5000/report', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Send the token for auth
+        },
+        responseType: 'blob', // Important for file downloads
+      });
+
+      // Create a temporary link element to trigger the file download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'user_report.csv'; // Name of the downloaded file
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link); // Clean up
+      window.URL.revokeObjectURL(url); // Free up the object URL
+    } catch (error) {
+      console.error('Error:', error);
+      setMessage('Failed to download the report. Please try again later.');
+      setError(true);
+    }
+  };
+
   return (
     <div className="form-container">
       <form onSubmit={handleLogin}>
@@ -57,6 +84,11 @@ function Login({ setIsLoggedIn }) {
           </p>
         )}
       </form>
+
+      {/* Display the Download Report button only if the user is logged in */}
+      {localStorage.getItem('token') && (
+        <button onClick={handleDownloadReport}>Download Report</button>
+      )}
     </div>
   );
 }
