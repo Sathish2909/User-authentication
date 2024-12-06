@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../index.css';
@@ -18,12 +18,12 @@ function Login({ setIsLoggedIn }) {
       const response = await axios.post('http://localhost:5000/login', { email, password, role });
       setMessage(response.data.message);
       setError(false);
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', response.data.token); // Save the token in localStorage
       localStorage.setItem('role', response.data.role);
-      setIsLoggedIn(true); // Update login status
-      navigate('/home'); // Redirect to home page
+      setIsLoggedIn(true); // Update login state
+      navigate('/home'); // Redirect to Home
     } catch (error) {
-      setMessage(error.response?.data?.message || 'An error occurred.');
+      setMessage(error.response?.data?.message || 'Invalid email, password, or role.');
       setError(true);
     }
   };
