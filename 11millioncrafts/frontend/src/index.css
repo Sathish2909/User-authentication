@@ -1,7 +1,7 @@
 body {
   font-family: Arial, sans-serif;
-  /* background: linear-gradient(135deg, #ff9a9e, #fad0c4); */
-  background-image:url("https://wallpapercave.com/wp/wp4083219.jpg");
+  background: linear-gradient(to bottom right,pink,violet,rgb(0, 229, 255));
+  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,8 +111,8 @@ form button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ff6f61;
-  color: white;
+  background: white;
+  color: rgb(128, 128, 128);
   padding: 1rem 2rem;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -135,7 +135,8 @@ form button:hover {
 }
 
 .header-right ul li a {
-  color: white;
+  color: grey
+  ;
   text-decoration: none;
   font-size: 1rem;
   font-weight: bold;
@@ -165,5 +166,22 @@ form button:hover {
 .page-content p, .page-content ul {
   font-size: 1.2rem;
 
+}
+
+.logout-button {
+  background: #ff6f61;
+  color: white;
+  
+  border: 2px solid #ff6f61;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 1rem;
+}
+
+.logout-button:hover {
+  background: white;
+  color: #ff6f61;
 }
 

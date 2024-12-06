@@ -22,9 +22,17 @@ function App() {
     localStorage.setItem('isLoggedIn', isLoggedIn);
   }, [isLoggedIn]);
 
+  // Check login state on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Check for a token in localStorage
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   // Protected Route Component
   const ProtectedRoute = ({ children }) => {
-    return isLoggedIn ? children : <Navigate to="/login" />;
+    return isLoggedIn ? children : <Navigate to="/home" />;
   };
 
   return (

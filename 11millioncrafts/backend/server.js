@@ -69,6 +69,10 @@ app.post('/register', async (req, res) => {
   }
 });
 
+
+
+
+
 // Login Endpoint
 app.post('/login', async (req, res) => {
   const { email, password, role } = req.body;
@@ -120,11 +124,7 @@ app.post('/api/products', upload.single('image'), async (req, res) => {
     const newProduct = new Product(productData);
     await newProduct.save();
     res.status(201).json({ message: 'Product added successfully!' });
-  } catch (error) {
-    console.error('Error saving product:', error);
-    res.status(500).json({ message: 'Server error!' });
-  }
-});
+
 
 // Get Products Endpoint
 app.get('/inventory', async (req, res) => {
@@ -136,6 +136,7 @@ app.get('/inventory', async (req, res) => {
     res.status(500).json({ message: 'Error fetching products' });
   }
 });
+
 
 // Start Server
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
