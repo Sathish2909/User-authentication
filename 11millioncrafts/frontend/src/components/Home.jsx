@@ -1,28 +1,23 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function Home() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    // Check if user has visited the home page before
-    const hasVisited = sessionStorage.getItem('hasVisitedHome');
+    const handleLogout = () => {
+        localStorage.removeItem('token'); // Clear the token from localStorage
+        localStorage.removeItem('role'); // Clear the role
+        navigate('/'); // Redirect to Landing Page
+        window.location.reload(); // Refresh to reset the app state
+    };
 
-    if (!hasVisited) {
-      // If not, save to sessionStorage to remember the visit
-      sessionStorage.setItem('hasVisitedHome', 'true');
-    } else {
-      // Prevent unwanted navigation to / on reload or if visited before
-      // You can add any custom logic here to prevent navigation
-      console.log('You have visited this page before!');
-    }
-  }, []);
-
-  return (
-    <div className="home-button">
-      <h1>Welcome to 11million Crafts!</h1>
-    </div>
-  );
+    return (
+        <div className="page-content">
+            <h2>Welcome to 11millioncrafts!</h2>
+            <p>Your one-stop solution for corporate gifting needs.</p>
+            <button className="logout-button" onClick={handleLogout}>logout</button>
+        </div>
+    );
 }
 
 export default Home;
