@@ -4,8 +4,8 @@ function Home() {
     const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Clear the token from localStorage
-    localStorage.removeItem('role'); // Clear the role
+    localStorage.removeItem('token'); 
+    localStorage.removeItem('role');
     navigate('/'); // Redirect to Landing Page
     window.location.reload(); // Refresh to reset the app state
   };
@@ -20,3 +20,4 @@ function Home() {
 }
 
 export default Home;
+

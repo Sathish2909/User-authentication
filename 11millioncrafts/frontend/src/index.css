@@ -1,14 +1,14 @@
 body {
   font-family: Arial, sans-serif;
-  background: linear-gradient(to bottom right,pink,violet,rgb(0, 229, 255));
+  background: white;
   
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   margin: 0;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size:cover;
   
 }
 
@@ -165,6 +165,7 @@ form button:hover {
 
 .page-content p, .page-content ul {
   font-size: 1.2rem;
+  color:black;
 
 }
 

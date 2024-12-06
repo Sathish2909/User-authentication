@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const multer = require('multer'); // Import multer for handling file uploads
+const multer = require('multer'); // For handling file uploads
 require('dotenv').config();
 
 const User = require('./models/User');
@@ -16,20 +16,20 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from 'uploads' directory
+// Serve static files from the 'uploads' directory
 app.use('/uploads', express.static('uploads'));
 
 // Setup multer for image upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Define the folder where images will be stored
+    cb(null, 'uploads/'); // Folder for storing images
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname); // Add timestamp to file name
+    cb(null, file.originalname); // Use the original file name
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 // MongoDB Connection
 mongoose
@@ -41,26 +41,20 @@ mongoose
 app.post('/register', async (req, res) => {
   const { email, password, role } = req.body;
 
-  // Validate required fields
   if (!email || !password || !role) {
     return res.status(400).json({ message: 'All fields are required!' });
   }
 
   try {
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new user
     const newUser = new User({ email, password: hashedPassword, role });
-
-    // Save the user in the database
     await newUser.save();
 
     res.status(201).json({ message: 'User registered successfully!' });
   } catch (error) {
-    console.error('Error during registration:', error); // Log the error
+    console.error('Error during registration:', error);
 
-    // Handle duplicate email error
     if (error.code === 11000) {
       res.status(400).json({ message: 'Email already exists!' });
     } else {
@@ -68,10 +62,6 @@ app.post('/register', async (req, res) => {
     }
   }
 });
-
-
-
-
 
 // Login Endpoint
 app.post('/login', async (req, res) => {
@@ -82,7 +72,7 @@ app.post('/login', async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email, role }); // Validate role in addition to email
+    const user = await User.findOne({ email, role });
     if (!user) {
       return res.status(404).json({ message: 'Invalid email or role!' });
     }
@@ -106,25 +96,25 @@ app.post('/login', async (req, res) => {
 app.post('/api/products', upload.single('image'), async (req, res) => {
   const { name, productId } = req.body;
 
-  // Log the incoming request for debugging
-  console.log('Received Product Data:', req.body);
-
   if (!name || !productId) {
     return res.status(400).json({ message: 'Product name and ID are required!' });
   }
 
   try {
-    // If an image is uploaded, req.file will contain the file details
     const productData = {
       name,
       productId,
-      image: req.file ? req.file.path : null, // Save the image path (file path)
+      image: req.file ? req.file.path : null, // Save image path
     };
 
     const newProduct = new Product(productData);
     await newProduct.save();
     res.status(201).json({ message: 'Product added successfully!' });
-
+  } catch (error) {
+    console.error('Error saving product:', error);
+    res.status(500).json({ message: 'Server error!' });
+  }
+});
 
 // Get Products Endpoint
 app.get('/inventory', async (req, res) => {
@@ -137,6 +127,7 @@ app.get('/inventory', async (req, res) => {
   }
 });
 
-
 // Start Server
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
